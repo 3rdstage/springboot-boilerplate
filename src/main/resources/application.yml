@@ -4,9 +4,14 @@ debug: !!bool ${SPRING_DEBUG:false}
 trace: !!bool ${SPRING_TRACE:false}
 
 logging.level:
+  org.springframework: INFO
   org.springframework.boot.autoconfigure: WARN
+  org.apache.tomcat: INFO
+  org.apache.catalina: INFO
+  org.eclipse.jetty: INFO
   org.hibernate.SQL: WARN
   org.hibernate.type: WARN
+  org.hibernate.tool.hbm2ddl: TRACE
 
 server:
   port: 8080
