@@ -9,8 +9,8 @@
     <version>2.4.2</version> <!-- last as of 2020/11/03 : v2.3.5.RELEASE -->
   </parent>
   <groupId>foo</groupId>
-  <artifactId>bar</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <artifactId>foo-bar</artifactId>
+  <version>0.1-SNAPSHOT</version>
  
   <prerequisites>
     <maven>3.0</maven>
@@ -22,13 +22,15 @@
     <!-- control build behavior -->
     <skipTests>false</skipTests>
     <maven.deploy.skip>true</maven.deploy.skip>
+    <maven.javadoc.skip>false</maven.javadoc.skip>
+    <maven.javadoc.failOnWarnings>false</maven.javadoc.failOnWarnings>
     <maven.site.skip>false</maven.site.skip> <!-- consumed by maven-site-plugin -->
     <maven.site.deploy.skip>true</maven.site.deploy.skip> <!-- consumed by maven-site-plugin -->
     <generateProjectInfo>false</generateProjectInfo> <!-- consumed by maven-site-plugin -->
     <generateReports>true</generateReports> <!-- consumed by maven-site-plugin -->
-    <maven.javadoc.skip>false</maven.javadoc.skip>
-    <maven.javadoc.failOnWarnings>false</maven.javadoc.failOnWarnings>
     <doclint>none</doclint> <!-- http://maven.apache.org/plugins/maven-javadoc-plugin/javadoc-mojo.html#doclint -->
+    <swagger-codegen.skip>true</swagger-codegen.skip>
+    <openapi-generator.skip>true</openapi-generator.skip>
     <findbugs.skip>true</findbugs.skip>
     <checkstyle.skip>true</checkstyle.skip>
     <dependencies.release.updatePolicy>never</dependencies.release.updatePolicy> <!-- always | daily | never -->
@@ -53,22 +55,24 @@
     <springfox-swagger2.version>2.9.2</springfox-swagger2.version> <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
     <mybatis.version>3.5.1</mybatis.version> <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
     <jjwt.version>0.10.7</jjwt.version> <!-- https://mvnrepository.com/artifact/io.jsonwebtoken -->
-    <web3j.version>4.5.17</web3j.version> <!-- https://mvnrepository.com/artifact/org.web3j -->
+    <web3j.version>4.8.0</web3j.version> <!-- https://mvnrepository.com/artifact/org.web3j -->
     <okhttp.version>4.3.1</okhttp.version> <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3 -->
     <!-- versions for Maven plugins -->
     <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin -->
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
-    <maven-site-plugin.version>3.9.0</maven-site-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
     <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+    <maven-site-plugin.version>3.9.0</maven-site-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
     <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version> <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/findbugs-maven-plugin -->
     <maven-checkstyle-plugin.version>3.1.1</maven-checkstyle-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
+    <maven-pmd-plugin.version>3.14.0</maven-pmd-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-pmd-plugin -->
     <duplicate-finder-maven-plugin.version>1.4.0</duplicate-finder-maven-plugin.version> <!-- https://mvnrepository.com/artifact/org.basepom.maven/duplicate-finder-maven-plugin -->
     <maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-eclipse-plugin -->
     <swagger-maven-plugin.version>3.1.8</swagger-maven-plugin.version> <!-- https://github.com/kongchen/swagger-maven-plugin -->
-    <swagger-codegen-maven-plugin.version>3.0.0-rc1</swagger-codegen-maven-plugin.version> <!-- https://mvnrepository.com/artifact/io.swagger/swagger-codegen-maven-plugin -->
-    <swagger-codegen-maven-plugin.v3.version>3.0.10</swagger-codegen-maven-plugin.v3.version> <!-- https://mvnrepository.com/artifact/io.swagger.codegen.v3/swagger-codegen-maven-plugin -->
+    <springdoc-openapi-maven-plugin.version>1.3</springdoc-openapi-maven-plugin.version> <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-maven-plugin -->
+    <swagger-codegen-maven-plugin.v3.version>3.0.26</swagger-codegen-maven-plugin.v3.version> <!-- https://mvnrepository.com/artifact/io.swagger.codegen.v3/swagger-codegen-maven-plugin -->
+    <openapi-generator-maven-plugin.version>5.1.1</openapi-generator-maven-plugin.version>
     <web3j-maven-plugin.version>4.5.11</web3j-maven-plugin.version> <!-- https://mvnrepository.com/artifact/org.web3j/web3j-maven-plugin -->
     <exec-maven-plugin>1.6.0</exec-maven-plugin>
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -83,19 +87,7 @@
       <releases>
         <updatePolicy>${dependencies.release.updatePolicy}</updatePolicy>
       </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>java.net.public</id>
-      <url>https://maven.java.net/content/groups/public/</url>
-      <releases>
-        <updatePolicy>${dependencies.release.updatePolicy}</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
+      <snapshots><enabled>false</enabled></snapshots>
     </repository>
     <repository>
       <id>spring-libs-milestone</id>
@@ -103,14 +95,21 @@
       <releases>
         <updatePolicy>${dependencies.release.updatePolicy}</updatePolicy>
       </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
+      <snapshots><enabled>false</enabled></snapshots>
+    </repository>
+    <repository>
+      <id>java.net.public</id>
+      <url>https://maven.java.net/content/groups/public/</url>
+      <releases>
+        <updatePolicy>${dependencies.release.updatePolicy}</updatePolicy>
+      </releases>
+      <snapshots><enabled>true</enabled></snapshots>
     </repository>
     <repository>
       <id>jcenter-snapshots</id>
       <name>jcenter</name>
       <url>https://jcenter.bintray.com/</url>
+      <releases><enabled>false</enabled></releases>
     </repository>
   </repositories>
  
@@ -121,9 +120,7 @@
       <releases>
         <updatePolicy>${dependencies.release.updatePolicy}</updatePolicy>
       </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
+      <snapshots><enabled>false</enabled></snapshots>
     </pluginRepository>
     <pluginRepository>
       <id>spring-plugins</id>
@@ -131,9 +128,7 @@
       <releases>
         <updatePolicy>${dependencies.release.updatePolicy}</updatePolicy>
       </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
+      <snapshots><enabled>false</enabled></snapshots>
     </pluginRepository>
   </pluginRepositories>
  
@@ -176,20 +171,12 @@
         </reportSets>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <configuration>
-          <!-- For more, refer https://maven.apache.org/plugins/maven-pmd-plugin/pmd-mojo.html -->
-          <aggregate>true</aggregate>
-          <linkXRef>true</linkXRef>
-          <includeXmlInSite>true</includeXmlInSite>
-          <skipEmptyReport>true</skipEmptyReport>
-          <skipPmdError>true</skipPmdError>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>
@@ -199,106 +186,64 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <jvmArguments>-Dspring.application.admin.enabled=true</jvmArguments>
+        </configuration>
+        <executions>
+          <execution>
+            <id>start-spring-boot-before-integration-test</id>
+            <phase>pre-integration-test</phase>
+            <goals><goal>start</goal></goals>
+          </execution>
+          <execution>
+            <id>stop-spring-boot-after-integration-test</id>
+            <phase>post-integration-test</phase>
+            <goals><goal>stop</goal></goals>
+          </execution>
+        </executions>
       </plugin>
       <!-- @TODO Validate 'logback-test.xml' using XML Maven plugin (https://www.mojohaus.org/xml-maven-plugin/index.html)  -->
       <plugin>
         <groupId>org.basepom.maven</groupId>
         <artifactId>duplicate-finder-maven-plugin</artifactId>
-        <version>${duplicate-finder-maven-plugin.version}</version>
         <executions>
           <execution>
             <id>find-duplicate-classes</id>
             <phase>prepare-package</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
+            <goals><goal>check</goal></goals>
           </execution>
         </executions>
-        <configuration>
-          <!-- For more, refer https://github.com/basepom/duplicate-finder-maven-plugin/wiki -->
-          <skip>false</skip>
-          <checkCompileClasspath>false</checkCompileClasspath>
-          <checkRuntimeClasspath>true</checkRuntimeClasspath>
-          <checkTestClasspath>false</checkTestClasspath>
-          <ignoredResourcePatterns>
-            <ignoredResourcePattern>about\.html</ignoredResourcePattern>
-          </ignoredResourcePatterns>
-          <ignoredClassPatterns>
-            <ignoredClassPattern>META-INF\.versions\.9\.module-info</ignoredClassPattern>
-          </ignoredClassPatterns>
-          <ignoredDependencies>
-            <dependency>
-              <groupId>org.slf4j</groupId>
-              <artifactId>jcl-over-slf4j</artifactId>
-            </dependency>
-          </ignoredDependencies>
-        </configuration>
       </plugin>
       <plugin>
-        <groupId>com.github.kongchen</groupId>
-        <artifactId>swagger-maven-plugin</artifactId>
-        <version>${swagger-maven-plugin.version}</version>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-maven-plugin</artifactId>
         <executions>
           <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <apiSources>
-                <apiSource>
-                  <springmvc>true</springmvc>
-                  <locations>
-                    <location>myprogram.controllers</location>
-                  </locations>
-                  <schemes>
-                    <scheme>http</scheme>
-                  </schemes>
-                  <host>localhost:8080</host>
-                  <basePath>/myappl/v1</basePath>
-                  <info>
-                    <title>REST API of My Program</title>
-                    <version>v1</version>
-                    <description>
-                    ...
-                    </description>
-                  </info>
-                  <swaggerDirectory>${project.build.directory}/generated/swagger</swaggerDirectory>
-                  <swaggerFileName>api</swaggerFileName>
-                  <outputFormats>json,yaml</outputFormats>
-                  <!-- <templatePath>${basedir}/src/templates/swagger/strapdown.html.hbs</templatePath> -->
-                  <!-- <outputPath>${project.build.directory}/generated/swagger/api.html</outputPath> -->
-                  <!-- <attachSwaggerArtifact>true</attachSwaggerArtifact> -->
-                  <modelConverters>io.swagger.validator.BeanValidator</modelConverters>
-                </apiSource>
-              </apiSources>
-            </configuration>
+            <phase>integration-test</phase>
+            <goals><goal>generate</goal></goals>
           </execution>
         </executions>
       </plugin>
       <plugin>
-        <!-- For more, refer followings
-           https://github.com/swagger-api/swagger-codegen/tree/3.0.0
-           https://github.com/swagger-api/swagger-codegen/tree/3.0.0/modules/swagger-codegen-maven-plugin
-       -->
         <groupId>io.swagger.codegen.v3</groupId>
         <artifactId>swagger-codegen-maven-plugin</artifactId>
-        <version>${swagger-codegen-maven-plugin.v3.version}</version>
         <executions>
           <execution>
             <id>generate-rest-api-doc-v3</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <inputSpec>${project.build.directory}/generated/swagger/api.json</inputSpec>
-              <language>html2</language>
-              <output>${project.build.directory}/generated/swagger/html2</output>
-              <generateApis>true</generateApis>
-            </configuration>
+            <phase>integration-test</phase>
+            <goals><goal>generate</goal></goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <executions>
+          <execution>
+              <phase>integration-test</phase>
+              <goals><goal>generate</goal></goals>
+            </execution>
+          </executions>
       </plugin>
       <plugin>
         <groupId>org.web3j</groupId>
@@ -357,13 +302,28 @@
         </plugin>
         <!-- sources -->
         <plugin>
-          <!-- For more, refer followings
-           https://github.com/swagger-api/swagger-codegen
-           https://github.com/swagger-api/swagger-codegen/tree/master/modules/swagger-codegen-maven-plugin
-         -->
-          <groupId>io.swagger</groupId>
-          <artifactId>swagger-codegen-maven-plugin</artifactId>
-          <version>${swagger-codegen-maven-plugin.version}</version>
+          <groupId>org.basepom.maven</groupId>
+          <artifactId>duplicate-finder-maven-plugin</artifactId>
+          <version>${duplicate-finder-maven-plugin.version}</version>
+          <configuration>
+            <!-- For more, refer https://github.com/basepom/duplicate-finder-maven-plugin/wiki -->
+            <skip>false</skip>
+            <checkCompileClasspath>false</checkCompileClasspath>
+            <checkRuntimeClasspath>true</checkRuntimeClasspath>
+            <checkTestClasspath>false</checkTestClasspath>
+            <ignoredResourcePatterns>
+              <ignoredResourcePattern>about\.html</ignoredResourcePattern>
+            </ignoredResourcePatterns>
+            <ignoredClassPatterns>
+              <ignoredClassPattern>META-INF\.versions\.9\.module-info</ignoredClassPattern>
+            </ignoredClassPatterns>
+            <ignoredDependencies>
+              <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+              </dependency>
+            </ignoredDependencies>
+          </configuration>
         </plugin>
         <!-- packaging -->
         <plugin>
@@ -439,6 +399,82 @@
           </executions>
         </plugin>
         <plugin>
+          <groupId>com.github.kongchen</groupId>
+          <artifactId>swagger-maven-plugin</artifactId>
+          <version>${swagger-maven-plugin.version}</version>
+          <configuration>
+            <apiSources>
+              <apiSource>
+                <springmvc>true</springmvc>
+                <locations>
+                  <location>myprogram.controllers</location>
+                </locations>
+                <schemes><scheme>http</scheme></schemes>
+                <host>localhost:8080</host>
+                <basePath>/myappl/v1</basePath>
+                <info>
+                  <title>REST API of My Program</title>
+                  <version>v1</version>
+                  <description>
+                  ...
+                  </description>
+                </info>
+                <swaggerDirectory>${project.build.directory}/generated/swagger</swaggerDirectory>
+                <swaggerFileName>api</swaggerFileName>
+                <outputFormats>json,yaml</outputFormats>
+                <!-- <templatePath>${basedir}/src/templates/swagger/strapdown.html.hbs</templatePath> -->
+                <!-- <outputPath>${project.build.directory}/generated/swagger/api.html</outputPath> -->
+                <!-- <attachSwaggerArtifact>true</attachSwaggerArtifact> -->
+                <modelConverters>io.swagger.validator.BeanValidator</modelConverters>
+              </apiSource>
+            </apiSources>
+          </configuration>
+        </plugin>
+        <plugin>
+          <!-- 
+            https://github.com/springdoc/springdoc-openapi-maven-plugin
+            https://springdoc.org/
+          -->
+          <groupId>org.springdoc</groupId>
+          <artifactId>springdoc-openapi-maven-plugin</artifactId>
+          <version>${springdoc-openapi-maven-plugin.version}</version>
+          <configuration>
+            <outputFileName>api.json</outputFileName>
+            <outputDir>${project.build.directory}/generated/openapi</outputDir>
+            <skip>false</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <!-- For more, refer followings
+             https://github.com/swagger-api/swagger-codegen/tree/3.0.0
+             https://github.com/swagger-api/swagger-codegen/tree/3.0.0/modules/swagger-codegen-maven-plugin
+          -->
+          <groupId>io.swagger.codegen.v3</groupId>
+          <artifactId>swagger-codegen-maven-plugin</artifactId>
+          <version>${swagger-codegen-maven-plugin.v3.version}</version>
+          <configuration>
+            <skip>${swagger-codegen.skip}</skip>
+            <inputSpec>${project.build.directory}/generated/openapi/api.json</inputSpec>
+            <language>html2</language>
+            <output>${project.build.directory}/generated/openapi/html2</output>
+          </configuration>
+        </plugin>
+        <plugin>
+          <!-- 
+            https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin 
+          -->
+          <groupId>org.openapitools</groupId>
+          <artifactId>openapi-generator-maven-plugin</artifactId>
+          <version>${openapi-generator-maven-plugin.version}</version>
+          <configuration>
+            <skip>${openapi-generator.skip}</skip>
+            <inputSpec>${project.build.directory}/generated/openapi/api.json</inputSpec>
+            <generatorName>html2</generatorName>
+            <output>${project.build.directory}/generated/openapi/html</output>
+            <skipValidateSpec>true</skipValidateSpec>
+          </configuration>
+        </plugin>
+        <plugin>
           <!-- For more, refer http://gleclaire.github.io/findbugs-maven-plugin/ -->
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>findbugs-maven-plugin</artifactId>
@@ -461,6 +497,19 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>${maven-checkstyle-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>${maven-pmd-plugin.version}</version>
+          <configuration>
+            <!-- For more, refer https://maven.apache.org/plugins/maven-pmd-plugin/pmd-mojo.html -->
+            <aggregate>true</aggregate>
+            <linkXRef>true</linkXRef>
+            <includeXmlInSite>true</includeXmlInSite>
+            <skipEmptyReport>true</skipEmptyReport>
+            <skipPmdError>true</skipPmdError>
+          </configuration>
         </plugin>
         <!-- tools supporting -->
         <plugin>
