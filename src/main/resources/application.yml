@@ -38,6 +38,18 @@ spring.security:
     name: boot
     password: boot
 
+springdoc:
+  use-fqn: false
+  swagger-ui:
+    show-common-extensions: true
+    default-model-rendering: "example"   # ("example" | "model")
+    default-models-expand-depth: 5
+    default-model-expand-depth: 5
+    disable-swagger-default-url: false
+    #validator-url: 'none'   # 'none' : no validation
+  api-docs:
+    path: /swagger-ui/api-docs
+    enabled: true
 
 ---
 spring.profiles: local
