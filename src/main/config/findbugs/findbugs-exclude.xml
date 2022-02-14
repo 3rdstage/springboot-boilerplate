@@ -1,0 +1,118 @@
+<FindBugsFilter>
+
+  <!--
+  Details of filter file : "http://findbugs.sourceforge.net/manual/filter.html"
+  Details of bug pattern :
+    . FindBugs built-in : http://findbugs.sourceforge.net/bugDescriptions.html
+    . fb-contrib : http://fb-contrib.sourceforge.net/bugdescriptions.html
+  -->
+
+  <!-- GROUP 1. test classes -->
+  <Match><Class name="~.*Test[0-9]*"/></Match> <!-- ProcessorTest, ProcessorTest1, ProcessorTest2 -->
+  <Match><Class name="~.*Test[0-9]*\$.*"/></Match> <!-- ProcessorTest$Task, ProcessorTest1$Task -->
+  <Match><Class name="~.*\.Test[A-Z][a-zA-Z0-9]*"/></Match> <!-- TestProcessor -->
+
+  <!-- GROUP 2. specific to this application or library -->
+
+
+  <!-- GROUP 3. patterns in LOW priority in most cases -->
+  <Match><Bug pattern="BAS_BLOATED_ASSIGNMENT_SCOPE"/></Match>
+  <Match><Bug pattern="BX_UNBOXED_AND_COERCED_FOR_TERNARY_OPERATOR"/></Match>
+  <Match><Bug pattern="CC_CYCLOMATIC_COMPLEXITY" /></Match>
+  <Match><Bug pattern="CD_CIRCULAR_DEPENDENCY" /></Match>
+  <Match><Bug pattern="DLC_DUBIOUS_LIST_COLLECTION"/></Match> <!-- fb-contrib -->
+  <Match>
+      <!-- The following detection find false cases to much as of FindBugs 2.0.2.
+      Maybe a bug in the detector -->
+      <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
+  </Match>
+  <Match><Bug pattern="DLS_DEAD_LOCAL_STORE_OF_NULL"/></Match>
+  <Match><Bug pattern="DLS_DEAD_LOCAL_STORE_IN_RETURN"/></Match>
+
+  <Match><Bug pattern="DM_CONVERT_CASE"/></Match>
+
+  <Match>
+      <!--  Default encoding can be explicitly specified using -Dfile.encoding option
+      at JVM's loading time. -->
+      <Bug pattern="DM_DEFAULT_ENCODING"/>
+  </Match>
+  <Match><Bug pattern="DRE_DECLARED_RUNTIME_EXCEPTION"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="EI_EXPOSE_REP" /></Match>
+  <Match><Bug pattern="EI_EXPOSE_REP2" /></Match>
+  <Match><Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CHECKED" /></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="EXS_EXCEPTION_SOFTENING_HAS_CHECKED" /></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS" /></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="FCBL_FIELD_COULD_BE_LOCAL" /></Match>
+  <Match><Bug pattern="FL_MATH_USING_FLOAT_PRECISION" /></Match>
+
+  <Match>
+    <!--
+    Performance related bug pattern but in low rank.
+    Needs more review before including this pattrn.
+    Seems to be included in fb-contrib, but not listed in the official documentation of fb-contrib as of now.
+    -->
+    <Bug pattern="IMA_INEFFICIENT_MEMBER_ACCESS" />
+  </Match>
+
+  <Match><Bug pattern="ITC_INHERITANCE_TYPE_CHECKING" /></Match>
+  <Match><Bug pattern="LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE" /></Match>
+  <Match><Bug pattern="LO_LOGGER_LOST_EXCEPTION_STACK_TRACE" /></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="LO_STUTTERED_MESSAGE" /></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="MDM_INETADDRESS_GETLOCALHOST" /></Match>
+
+  <!-- duplicate with DM_DEFAULT_ENCODING which is one FindBugs built-in pattern -->
+  <Match><Bug pattern="MDM_STRING_BYTES_ENCODING" /></Match> <!-- fb-contrib -->
+
+  <Match><Bug pattern="MRC_METHOD_RETURNS_CONSTANT" /></Match>
+  <Match><Bug pattern="MS_CANNOT_BE_FINAL" /></Match>
+  <Match><Bug pattern="MS_OOI_PKGPROTECT" /></Match>
+  <Match><Bug pattern="MS_PKGPROTECT" /></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="MS_SHOULD_BE_FINAL"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="NAB_NEEDLESS_BOOLEAN_CONSTANT_CONVERSION"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="NAB_NEEDLESS_BOXING_PARSE"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="NAB_NEEDLESS_BOXING_STRING_CTOR"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="NAB_NEEDLESS_BOX_TO_CAST"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="NAB_NEEDLESS_BOXING_VALUEOF"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="NAB_NEEDLESS_AUTOBOXING_VALUEOF"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="NM_FIELD_NAMING_CONVENTION"/></Match>
+  <Match><Bug pattern="NPMC_NON_PRODUCTIVE_METHOD_CALL"/></Match> <!-- fb-contrib -->
+
+  <!-- expreimental. as is described documentation,
+    "essentially the same as the OS_OPEN_STREAM and ODR_OPEN_DATABASE_RESOURCE bug patter" -->
+  <Match><Bug pattern="OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE"/></Match>
+
+  <Match><Bug pattern="OC_OVERZEALOUS_CASTING"/></Match>
+  <Match><Bug pattern="OCP_OVERLY_CONCRETE_PARAMETER"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="PCAIL_POSSIBLE_CONSTANT_ALLOCATION_IN_LOOP"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="PCOA_PARTIALLY_CONSTRUCTED_OBJECT_ACCESS"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE"/></Match>
+  <Match><Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE"/></Match>
+  <Match><Bug pattern="PMB_POSSIBLE_MEMORY_BLOAT"/></Match>
+  <Match><Bug pattern="PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="REC_CATCH_EXCEPTION" /></Match>
+  <Match><Bug pattern="PZLA_PREFER_ZERO_LENGTH_ARRAYS" /></Match>
+  <Match><Bug pattern="SBSC_USE_STRINGBUFFER_CONCATENATION" /></Match>
+  <Match><Bug pattern="SE_NO_SERIALVERSIONID" /></Match>
+  <Match><Bug pattern="SIC_INNER_SHOULD_BE_STATIC_ANON" /></Match>
+
+  <!-- seems to work incorrectly with 2.0.2 -->
+  <Match><Bug pattern="SNG_SUSPICIOUS_NULL_FIELD_GUARD" /></Match>
+  <Match><Bug pattern="SPP_TEMPORARY_TRIM"/></Match> <!-- fb-contrib : clarity -->
+  <Match><Bug pattern="SPP_SUSPECT_STRING_TEST"/></Match>
+  <Match><Bug pattern="SPP_USE_ISEMPTY"/></Match> <!-- fb-contrib : clarity -->
+  <Match><Bug pattern="SPP_USE_MATH_CONSTANT"/></Match>
+  <Match><Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" /></Match>
+  <Match><Bug pattern="SS_SHOULD_BE_STATIC" /></Match>
+  <Match><Bug pattern="SUA_SUSPICIOUS_UNINITIALIZED_ARRAY"/></Match>
+  <Match><Bug pattern="UNNC_UNNECESSARY_NEW_NULL_CHECK"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="UCPM_USE_CHARACTER_PARAMETERIZED_METHOD"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="UI_INHERITANCE_UNSAFE_GETRESOURCE" /></Match>
+  <Match><Bug pattern="URF_UNREAD_FIELD" /></Match>
+  <Match><Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" /></Match>
+  <Match><Bug pattern="USBR_UNNECESSARY_STORE_BEFORE_RETURN"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD"/></Match>
+  <Match><Bug pattern="UVA_USE_VAR_ARGS"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="WEM_WEAK_EXCEPTION_MESSAGING"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="WOC_WRITE_ONLY_COLLECTION_FIELD"/></Match> <!-- fb-contrib -->
+  <Match><Bug pattern="WOC_WRITE_ONLY_COLLECTION_LOCAL"/></Match> <!-- fb-contrib -->
+</FindBugsFilter>
